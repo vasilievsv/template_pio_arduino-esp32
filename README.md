@@ -1,27 +1,5 @@
-How to build PlatformIO based project
-=====================================
+Онлайн-калькулятор делителя напряжения на резисторах
+https://voltiq.ru/services/voltage-divider-online-calculator/
 
-1. [Install PlatformIO Core](https://docs.platformio.org/page/core.html)
-2. Download [development platform with examples](https://github.com/platformio/platform-espressif32/archive/develop.zip)
-3. Extract ZIP archive
-4. Run these commands:
-
-```shell
-# Change directory to example
-$ cd platform-espressif32/examples/arduino-wifiscan
-
-# Build project
-$ pio run
-
-# Upload firmware
-$ pio run --target upload
-
-# Build specific environment
-$ pio run -e quantum
-
-# Upload firmware for the specific environment
-$ pio run -e quantum --target upload
-
-# Clean build files
-$ pio run --target clean
-```
+https://forum.arduino.cc/t/using-acs712-on-3-3v-mcu-without-level-shifting/334026/11
+https://www.circuitschools.com/measure-ac-current-by-interfacing-acs712-sensor-with-esp32/
