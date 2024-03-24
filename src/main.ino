@@ -17,27 +17,33 @@ void setup() {
   Serial.begin (115200); 
   Serial.println ("ACS712 current sensor"); 
   // Initialize the LCD connected 
-
-delay(1000);
-  
+  delay(1000);
 }
  
 void loop() {
-  Serial.println (""); 
-  Voltage = getVPP();
+
+  
+  //Voltage = getVPP();
   // VRMS = (Voltage/2.0) *0.707;   //root 2 is 0.707
   // AmpsRMS = ((VRMS * 1000)/mVperAmp)-0.3; //0.3 is the error I got for my sensor
  
   // Serial.print(AmpsRMS);
   // Serial.print(" Amps RMS  ---  ");
   // Watt = (AmpsRMS*240/1.2);
-// note: 1.2 is my own empirically established calibration factor
-// as the voltage measured at D34 depends on the length of the OUT-to-D34 wire
-// 240 is the main AC power voltage – this parameter changes locally
+  // note: 1.2 is my own empirically established calibration factor
+  // as the voltage measured at D34 depends on the length of the OUT-to-D34 wire
+  // 240 is the main AC power voltage – this parameter changes locally
   // Serial.print(Watt);
   // Serial.println(" Watts");
 
-delay (1);
+   String a = String(analogRead(34));
+   String b = String(analogRead(35));
+   Serial.print(a);
+   Serial.print(",");
+   Serial.print(b);
+   Serial.println (""); 
+
+  delay (1);
 }
  
 // ***** function calls ******
@@ -48,31 +54,24 @@ float getVPP()
   int maxValue = 0;             // store max value here
   int minValue = 4096;          // store min value here ESP32 ADC resolution
   
-  //  uint32_t start_time = millis();
-  //  while((millis()-start_time) < 1000) //sample for 1 Sec
-  //  {
-  //      readValue = analogRead(sensorIn);
-  //      // see if you have a new maxValue
-  //      if (readValue > maxValue) 
-  //      {
-  //          /*record the maximum sensor value*/
-  //          maxValue = readValue;
-  //      }
-  //      if (readValue < minValue) 
-  //      {
-  //          /*record the minimum sensor value*/
-  //          minValue = readValue;
-  //      }
-  //  }
+   uint32_t start_time = millis();
+   while((millis()-start_time) < 2) //sample for 1 Sec
+   {
+       readValue = analogRead(sensorIn);
+       // see if you have a new maxValue
+       if (readValue > maxValue) 
+       {
+           /*record the maximum sensor value*/
+           maxValue = readValue;
+       }
+       if (readValue < minValue) 
+       {
+           /*record the minimum sensor value*/
+           minValue = readValue;
+       }
+   }
   
-   String a = String(analogRead(34));
-   String b = String(analogRead(35));
-   Serial.print(a);
-   Serial.print(",");
-   Serial.print(b);
-
    // Subtract min from max
-   result = ((maxValue - minValue) * 3.3)/4096.0; //ESP32 ADC resolution 4096
-      
+   result = ((maxValue - minValue) * 3.3)/4096.0; //ESP32 ADC resolution 4096  
    return result;
  }
